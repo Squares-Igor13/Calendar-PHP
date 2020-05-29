@@ -7,6 +7,22 @@
 		td {
 			border: 1px solid grey;
 			padding: 5px;
+			text-align: center;
+		}
+
+		.normal:hover {
+			color: white;
+			background: black;
+		}
+		.weekend {
+			color: red;
+		}
+		.weekend:hover {
+			color: white;
+			background: red;
+		}
+		.current {
+			border: dashed blue 2px;
 		}
 	</style>
 </head>
@@ -42,6 +58,7 @@
 			//$wd - переменная показывает порядковый номер дня недели
 			//сравниваем с ней порядковый номер дня недели месяца для первой недели, если равны то заполняем, если нет - пустой квадратик
 			 $wd=1; 
+			 $nowDay = date('j');
 
 				for($i=1; $i <=date('t', mktime(0,0,0,$month,date("d"),date('Y'))); $i++,$wd++) {
 
@@ -58,11 +75,12 @@
 						
 						//Первый день месяца, записывается имнно отсюда, 1 число кажого месяца
 						if((date('N' , mktime(0,0,0, $month, $i, date('Y')))) == $wd) {
+
 							//если первый день месца сб или вс, окрашиваем в красный
 							if((date('N' , mktime(0,0,0, $month, $i, date('Y')))) %6==0 || (date('N' , mktime(0,0,0, $month, $i, date('Y')))) %7==0) {
-						 		echo "<td style='color:red;'>".$i."</td>";
+						 		echo "<td class='weekend'>".$i."</td>";
 						 	} else {
-						 		echo "<td>".$i."</td>";
+						 		echo "<td class='normal'>".$i."</td>";
 						 	}
 
 						} else {
@@ -70,13 +88,19 @@
 						}
 					}
 					 else {
+
+					 	//отмечаем текущий день
+					 	if($i == $nowDay) {
+					 		echo "<td class='current'>".$i."</td>";
+					 		continue;
+					 	}
+
 					 	//если это выходные, окрашиваем красным цветом
 					 	if((date('N' , mktime(0,0,0, $month, $i, date('Y')))) %6==0 || (date('N' , mktime(0,0,0, $month, $i, date('Y')))) %7==0) {
-					 		echo "<td style='color:red;'>".$i."</td>";
+					 		echo "<td class='weekend'>".$i."</td>";
 					 	} else {
-					 		echo "<td>".$i."</td>";
-					 	}
-						
+					 		echo "<td class='normal'>".$i."</td>";
+					 	}					
 					}
 
 					
